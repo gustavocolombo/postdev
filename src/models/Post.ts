@@ -2,7 +2,7 @@ import {
   Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('posts')
+@Entity('post')
 export default class Post {
   @PrimaryGeneratedColumn('uuid')
   id: string;

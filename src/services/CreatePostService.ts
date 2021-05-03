@@ -1,4 +1,5 @@
 import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 import Post from '../models/Post';
 import PostRepository from '../repositories/PostRepository';
 
@@ -10,11 +11,7 @@ interface Post{
 }
 
 export default class CreatePostRepository {
-  private postRepository : PostRepository;
-
-  constructor(postRepository: PostRepository) {
-    this.postRepository = postRepository;
-  }
+  private postRepository = getCustomRepository(PostRepository);
 
   public execute({ author, date, topic }: Post):Post {
     const parsedDate = startOfHour(date);
