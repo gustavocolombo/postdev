@@ -1,35 +1,30 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
+} from 'typeorm';
 
-interface Author{
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  expertise: string;
-  region: string;
-}
-
+@Entity('authors')
 export default class Author {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   name: string;
 
+  @Column()
   email: string;
 
+  @Column()
   password: string;
 
+  @Column()
   expertise: string;
 
+  @Column()
   region: string;
 
-  constructor({
-    name, email, password, expertise, region,
-  }: Author) {
-    this.id = uuid();
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.expertise = expertise;
-    this.region = region;
-  }
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

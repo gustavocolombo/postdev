@@ -1,31 +1,31 @@
 import { Router } from 'express';
-import Author from '../models/Author';
+import AuthorRepository from '../repositories/AuthorRepository';
+import CreateAuthorService from '../services/CreateAuthorService';
 
 const authorRoutes = Router();
+const authorRepository = new AuthorRepository();
+const createAuthorService = new CreateAuthorService(authorRepository);
 
-interface Author{
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  expertise: string;
-  region: string;
-}
+authorRoutes.get('/', (request, response) => {
+  const findAll = authorRepository.find();
 
-const authors: Author[] = [];
+  return response.json(findAll);
+});
 
 authorRoutes.post('/', (request, response) => {
-  const {
-    name, email, password, expertise, region,
-  } = request.body;
+  try {
+    const {
+      name, email, password, expertise, region,
+    } = request.body;
 
-  const author = new Author({
-    name, email, password, expertise, region,
-  });
+    const author = createAuthorService.execute({
+      name, email, password, expertise, region,
+    });
 
-  authors.push(author);
-
-  return response.json(author);
+    return response.json(author);
+  } catch (err) {
+    return response.json({ error: err.message });
+  }
 });
 
 export default authorRoutes;

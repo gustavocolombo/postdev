@@ -1,25 +1,30 @@
 import { Router } from 'express';
-import Post from '../models/Post';
+import { parseISO } from 'date-fns';
+import PostRepository from '../repositories/PostRepository';
+import CreatePostService from '../services/CreatePostService';
 
 const postRoutes = Router();
+const postRepository = new PostRepository();
+const createPostService = new CreatePostService(postRepository);
 
-interface Post{
-  id: string;
-  author: string;
-  topic: string;
-  date: Date;
-}
+postRoutes.get('/posts', (request, response) => {
+  const findAll = postRepository.findAllPosts();
 
-const posts: Post[] = [];
+  return response.json(findAll);
+});
 
 postRoutes.post('/', (request, response) => {
-  const { author, date, topic } = request.body;
+  try {
+    const { author, date, topic } = request.body;
 
-  const post = new Post({ author, date, topic });
+    const dateParsed = parseISO(date);
 
-  posts.push(post);
+    const post = createPostService.execute({ author, date: dateParsed, topic });
 
-  return response.json(post);
+    return response.json(post);
+  } catch (err) {
+    return response.json({ error: err.message });
+  }
 });
 
 export default postRoutes;
