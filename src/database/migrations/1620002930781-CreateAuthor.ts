@@ -35,12 +35,12 @@ export class CreateAuthor1620002930781 implements MigrationInterface {
         },
         {
           name: 'created_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()',
         },
         {
           name: 'updated_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()',
         },
       ],

@@ -1,3 +1,4 @@
+import { getCustomRepository } from 'typeorm';
 import Author from '../models/Author';
 import AuthorRepository from '../repositories/AuthorRepository';
 
@@ -11,18 +12,24 @@ interface Author{
 }
 
 export default class CreateAuthorService {
-  private authorRepository:AuthorRepository;
-
-  constructor(authorRepository: AuthorRepository) {
-    this.authorRepository = authorRepository;
-  }
-
-  public execute({
+  public async execute({
     name, email, password, expertise, region,
-  }: Author):Author {
-    const author = this.authorRepository.create({
+  }: Author): Promise<Author> {
+    const authorRepository = getCustomRepository(AuthorRepository);
+
+    const validate = await authorRepository.findOne({
+      where: { email },
+    });
+
+    if (validate) {
+      throw new Error('this email is been already used');
+    }
+
+    const author = authorRepository.create({
       name, email, password, expertise, region,
     });
+
+    await authorRepository.save(author);
 
     return author;
   }

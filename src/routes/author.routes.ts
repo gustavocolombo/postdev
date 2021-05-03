@@ -1,24 +1,26 @@
 import { Router } from 'express';
+import { getCustomRepository } from 'typeorm';
 import AuthorRepository from '../repositories/AuthorRepository';
 import CreateAuthorService from '../services/CreateAuthorService';
 
 const authorRoutes = Router();
-const authorRepository = new AuthorRepository();
-const createAuthorService = new CreateAuthorService(authorRepository);
 
 authorRoutes.get('/', (request, response) => {
+  const authorRepository = getCustomRepository(AuthorRepository);
   const findAll = authorRepository.find();
 
   return response.json(findAll);
 });
 
-authorRoutes.post('/', (request, response) => {
+authorRoutes.post('/', async (request, response) => {
   try {
     const {
       name, email, password, expertise, region,
     } = request.body;
 
-    const author = createAuthorService.execute({
+    const createAuthorService = new CreateAuthorService();
+
+    const author = await createAuthorService.execute({
       name, email, password, expertise, region,
     });
 

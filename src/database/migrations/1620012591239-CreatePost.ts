@@ -4,7 +4,7 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 export class CreatePost1620012591239 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
-      name: 'post',
+      name: 'posts',
       columns: [
         {
           name: 'id',
@@ -15,10 +15,14 @@ export class CreatePost1620012591239 implements MigrationInterface {
         },
         {
           name: 'author',
-          type: 'uuid',
+          type: 'varchar',
         },
         {
           name: 'topic',
+          type: 'varchar',
+        },
+        {
+          name: 'message',
           type: 'varchar',
         },
         {
@@ -27,12 +31,12 @@ export class CreatePost1620012591239 implements MigrationInterface {
         },
         {
           name: 'created_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()',
         },
         {
           name: 'updated_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()',
         },
       ],
@@ -40,6 +44,6 @@ export class CreatePost1620012591239 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('post');
+    await queryRunner.dropTable('posts');
   }
 }
