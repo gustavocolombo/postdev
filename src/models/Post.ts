@@ -1,25 +1,24 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,
+} from 'typeorm';
 
-interface Post{
-  id: string;
-  author: string;
-  topic: string;
-  date: Date;
-}
-
+@Entity('posts')
 export default class Post {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
   author: string;
 
+  @Column()
   topic: string;
 
+  @Column()
   date: Date;
 
-  constructor({ author, topic, date }: Post) {
-    this.id = uuid();
-    this.author = author;
-    this.topic = topic;
-    this.date = date;
-  }
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
