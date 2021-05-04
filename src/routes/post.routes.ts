@@ -6,11 +6,22 @@ import CreatePostService from '../services/CreatePostService';
 
 const postRoutes = Router();
 
-postRoutes.get('/posts', (request, response) => {
+postRoutes.get('/posts', async (request, response) => {
   const postRepository = getCustomRepository(PostRepository);
-  const findAll = postRepository.find();
+  const findAll = await postRepository.find();
 
   return response.json(findAll);
+});
+
+postRoutes.get('/', async (request, response) => {
+  const postRepository = getCustomRepository(PostRepository);
+  const { dateToSearch } = request.body;
+
+  const parsedDateToSearch = parseISO(dateToSearch);
+
+  const findPostByDate = await postRepository.findPostByDate(parsedDateToSearch);
+
+  return response.json({ findPostByDate });
 });
 
 postRoutes.post('/', async (request, response) => {
@@ -27,7 +38,7 @@ postRoutes.post('/', async (request, response) => {
       author, date: dateParsed, topic, message,
     });
 
-    return response.json(post);
+    return response.json({ post });
   } catch (err) {
     return response.json({ error: err.message });
   }
