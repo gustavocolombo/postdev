@@ -8,4 +8,10 @@ export default class PostRepository extends Repository<Post> {
 
     return findPost || null;
   }
+
+  public async validateMessage(message: string): Promise<Post | null> {
+    const validateMessage = await this.findOne({ where: { message } });
+
+    return validateMessage || null;
+  }
 }

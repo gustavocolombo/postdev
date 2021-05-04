@@ -24,6 +24,7 @@ export class CreatePost1620012591239 implements MigrationInterface {
         {
           name: 'message',
           type: 'varchar',
+          length: '1110',
         },
         {
           name: 'date',

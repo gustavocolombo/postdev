@@ -18,6 +18,12 @@ export default class CreatePostRepository {
     const postRepository = getCustomRepository(PostRepository);
     const parsedDate = startOfHour(date);
 
+    const validateMessageToCreate = await postRepository.validateMessage(message);
+
+    if (validateMessageToCreate) {
+      throw new Error('This message was not created, it is not allowed to create the same message');
+    }
+
     const post = postRepository.create({
       author, date: parsedDate, topic, message,
     });

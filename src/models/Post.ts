@@ -13,7 +13,7 @@ export default class Post {
   @Column()
   topic: string;
 
-  @Column({ length: 1110 })
+  @Column()
   message: string;
 
   @Column()
