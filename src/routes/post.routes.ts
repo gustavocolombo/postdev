@@ -27,7 +27,7 @@ postRoutes.get('/', async (request, response) => {
 postRoutes.post('/', async (request, response) => {
   try {
     const {
-      author, date, topic, message,
+      date, author_id, topic, message,
     } = request.body;
 
     const dateParsed = parseISO(date);
@@ -35,7 +35,7 @@ postRoutes.post('/', async (request, response) => {
     const createPostService = new CreatePostService();
 
     const post = await createPostService.execute({
-      author, date: dateParsed, topic, message,
+      date: dateParsed, author_id, topic, message,
     });
 
     return response.json({ post });

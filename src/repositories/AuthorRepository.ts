@@ -8,4 +8,10 @@ export default class AuthorRepository extends Repository<Author | null> {
 
     return authorValidated || null;
   }
+
+  public async findByName(name: string):Promise<Author | null> {
+    const findAuthor = await this.findAndCount({ where: { name } });
+
+    return findAuthor || null;
+  }
 }

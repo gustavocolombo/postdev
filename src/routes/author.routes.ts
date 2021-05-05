@@ -5,11 +5,21 @@ import CreateAuthorService from '../services/CreateAuthorService';
 
 const authorRoutes = Router();
 
-authorRoutes.get('/', (request, response) => {
+authorRoutes.get('/', async (request, response) => {
   const authorRepository = getCustomRepository(AuthorRepository);
-  const findAll = authorRepository.find();
+  const findAll = await authorRepository.find();
 
   return response.json(findAll);
+});
+
+authorRoutes.get('/?_author-name', async (request, response) => {
+  const authorRepository = getCustomRepository(AuthorRepository);
+
+  const { authorName } = request.body;
+
+  const findAuthorByName = await authorRepository.findByName(authorName);
+
+  return response.json({ findAuthorByName });
 });
 
 authorRoutes.post('/', async (request, response) => {
