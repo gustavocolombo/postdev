@@ -3,8 +3,10 @@ import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import PostRepository from '../repositories/PostRepository';
 import CreatePostService from '../services/CreatePostService';
+import ensureAuthenticated from '../middleware/ensureAuthenticated';
 
 const postRoutes = Router();
+postRoutes.use(ensureAuthenticated);
 
 postRoutes.get('/posts', async (request, response) => {
   const postRepository = getCustomRepository(PostRepository);

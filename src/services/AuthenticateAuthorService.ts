@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import authConfig from '../config/auth';
 import Author from '../models/Author';
 
 interface RequestDTO {
@@ -29,9 +30,9 @@ export default class AuthenticateAuthorService {
       throw new Error('Incorrect email/password combination');
     }
 
-    const token = sign({}, '90299834c17946c3bd1cb8ea8c1aac81', {
+    const token = sign({}, authConfig.jwt.secret, {
       subject: author.id,
-      expiresIn: '1d',
+      expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {
