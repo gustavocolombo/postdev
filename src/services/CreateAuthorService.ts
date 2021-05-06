@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { hash } from 'bcryptjs';
 import Author from '../models/Author';
 import AuthorRepository from '../repositories/AuthorRepository';
 
@@ -25,8 +26,10 @@ export default class CreateAuthorService {
       throw new Error('this email is been already used');
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const author = authorRepository.create({
-      name, email, password, expertise, region,
+      name, email, password: hashedPassword, expertise, region,
     });
 
     await authorRepository.save(author);

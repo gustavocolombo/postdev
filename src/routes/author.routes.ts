@@ -34,6 +34,8 @@ authorRoutes.post('/', async (request, response) => {
       name, email, password, expertise, region,
     });
 
+    delete author.password;
+
     return response.json(author);
   } catch (err) {
     return response.json({ error: err.message });
