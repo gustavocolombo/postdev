@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import AuthorRepository from '../repositories/AuthorRepository';
 import CreateAuthorService from '../services/CreateAuthorService';
+import UpdatePasswordService from '../services/UpdatePasswordService';
 
 const authorRoutes = Router();
 
@@ -38,7 +39,23 @@ authorRoutes.post('/', async (request, response) => {
 
     return response.json(author);
   } catch (err) {
-    return response.json({ error: err.message });
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+authorRoutes.put('/update', async (request, response) => {
+  try {
+    const { email, password, new_password } = request.body;
+
+    const updatePasswordService = new UpdatePasswordService();
+
+    const updatePassword = await updatePasswordService.execute(
+      { email, password, new_password },
+    );
+
+    return response.json({ updatePassword });
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
   }
 });
 

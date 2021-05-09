@@ -27,6 +27,12 @@ export class CreatePost1620012591239 implements MigrationInterface {
           length: '1110',
         },
         {
+          name: 'like',
+          type: 'integer',
+          default: 0,
+          generationStrategy: 'increment',
+        },
+        {
           name: 'date',
           type: 'timestamp',
         },

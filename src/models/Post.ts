@@ -22,6 +22,9 @@ export default class Post {
   message: string;
 
   @Column()
+  like: number;
+
+  @Column()
   date: Date;
 
   @CreateDateColumn()

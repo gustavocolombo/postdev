@@ -14,4 +14,16 @@ export default class PostRepository extends Repository<Post> {
 
     return validateMessage || null;
   }
+
+  public async addLike(id: string): Promise<number> {
+    const findPostToLike = await this.findOne({ where: { id } });
+
+    if (!findPostToLike) {
+      throw new Error('Post not found');
+    }
+
+    const addLike = findPostToLike.like + 1;
+
+    return addLike;
+  }
 }

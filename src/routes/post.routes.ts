@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm';
 import PostRepository from '../repositories/PostRepository';
 import CreatePostService from '../services/CreatePostService';
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
+import CreateLikeService from '../services/CreateLikeService';
 
 const postRoutes = Router();
 postRoutes.use(ensureAuthenticated);
@@ -42,7 +43,21 @@ postRoutes.post('/', async (request, response) => {
 
     return response.json({ post });
   } catch (err) {
-    return response.json({ error: err.message });
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+postRoutes.post('/:id/post', async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    const like = new CreateLikeService();
+
+    const addLikeToPost = await like.execute(id);
+
+    return response.json(addLikeToPost);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
   }
 });
 
