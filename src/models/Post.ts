@@ -25,6 +25,9 @@ export default class Post {
   like: number;
 
   @Column()
+  comment: string;
+
+  @Column()
   date: Date;
 
   @CreateDateColumn()

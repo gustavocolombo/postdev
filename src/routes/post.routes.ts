@@ -5,6 +5,7 @@ import PostRepository from '../repositories/PostRepository';
 import CreatePostService from '../services/CreatePostService';
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
 import CreateLikeService from '../services/CreateLikeService';
+import CreateCommentService from '../services/CreateCommentService';
 
 const postRoutes = Router();
 postRoutes.use(ensureAuthenticated);
@@ -56,6 +57,20 @@ postRoutes.post('/:id/post', async (request, response) => {
     const addLikeToPost = await like.execute(id);
 
     return response.json(addLikeToPost);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
+});
+
+postRoutes.post('/comment', async (request, response) => {
+  try {
+    const { comment, id } = request.body;
+
+    const createComment = new CreateCommentService();
+
+    const comment = await createComment.execute({ comment, id });
+
+    return response.json(comment);
   } catch (err) {
     return response.status(400).json({ error: err.message });
   }

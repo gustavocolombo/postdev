@@ -26,4 +26,16 @@ export default class PostRepository extends Repository<Post> {
 
     return addLike;
   }
+
+  public async addComment(id: string, comment: string): Promise<Post> {
+    const validateComment = await this.findOne({ where: { id } });
+
+    if (!validateComment) throw new Error('Post not found');
+
+    const createComment = validateComment.comment;
+
+    createComment = comment;
+
+    return createComment;
+  }
 }

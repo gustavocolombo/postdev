@@ -20,6 +20,8 @@ authorRoutes.get('/?_author-name', async (request, response) => {
 
   const findAuthorByName = await authorRepository.findByName(authorName);
 
+  delete findAuthorByName?.password;
+
   return response.json({ findAuthorByName });
 });
 
