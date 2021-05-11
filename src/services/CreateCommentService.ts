@@ -7,7 +7,7 @@ interface RequestDTO {
 }
 
 export default class CreateCommentService {
-  public async execute({ id, comment }: RequestDTO): Promise<Post> {
+  public async execute({ id, comment }: RequestDTO): Promise<string> {
     const commentRepo = getCustomRepository(PostRepository);
 
     const validateComment = await commentRepo.findOne({ where: { id } });
@@ -16,7 +16,9 @@ export default class CreateCommentService {
       throw new Error('Post not found to comment');
     }
 
-    const createComment = await commentRepo.addComment(id, comment);
+    validateComment.comment = await commentRepo.addComment(id, comment);
+
+    const createComment = await commentRepo.save(validateComment);
 
     return createComment;
   }

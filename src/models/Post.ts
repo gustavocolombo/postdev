@@ -24,7 +24,7 @@ export default class Post {
   @Column()
   like: number;
 
-  @Column()
+  @Column('simple-array')
   comment: string;
 
   @Column()

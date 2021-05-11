@@ -30,7 +30,8 @@ export class CreatePost1620012591239 implements MigrationInterface {
           name: 'comment',
           type: 'varchar',
           length: '1110',
-          default: '0',
+          isArray: true,
+          isNullable: true,
         },
         {
           name: 'like',
